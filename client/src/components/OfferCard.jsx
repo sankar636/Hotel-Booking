@@ -1,7 +1,7 @@
 import React from 'react';
 import offercard from '../assets/exclusiveOfferCardImg1.png'
 const OfferCard = ({item,}) => {
-    console.log("Item", item);
+    // console.log("Item", item);
     
   return (
     <div className="relative max-w-sm rounded-xl overflow-hidden shadow-lg">

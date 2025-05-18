@@ -1,7 +1,7 @@
 import React from "react";
 import { assets, cities } from "../assets/assets.js";
 const Form = () => {
-    console.log(cities);
+    // console.log(cities);
 
     return (
         <form className='bg-white text-gray-500 rounded-lg px-6 py-4  flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto'>
