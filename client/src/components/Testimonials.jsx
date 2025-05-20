@@ -1,13 +1,8 @@
 import React from "react";
 import Title from "./Title";
 import { testimonials } from "../assets/assets";
+import StarIcon from "./StarIcon.jsx";
 const Testimonials = () => {
-    
-    const Star = ({ filled }) => (
-        <svg className="w-4 h-4 text-yellow-400" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 17.25l-6.16 3.73 1.64-7.03L2.5 9.77l7.19-.61L12 2.5l2.31 6.66 7.19.61-5 4.18 1.64 7.03z" />
-        </svg>
-    ); // this is the rating of starts as per the user
 
     return (
         <div className="flex flex-col items-center px-6 md:px-16 lg:px-24 bg-[#F5F7FF] pt-20 pb-30">
@@ -24,7 +19,7 @@ const Testimonials = () => {
                         </div>
                         <div className="flex items-center gap-1 mt-4">
                             {Array(5).fill(0).map((_, index) => (
-                                <Star key={index} filled={testimonial.rating > index} />
+                                <StarIcon key={index} filled={testimonial.rating > index} />
                             ))}
                         </div>
                         <p className="text-gray-500 max-w-90 mt-4">"{testimonial.review}"</p>
