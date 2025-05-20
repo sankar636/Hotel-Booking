@@ -28,18 +28,18 @@ const Navbar = () => {
 
             {/* Logo */}
             <Link to='/'>
-                <img src={`${assets.logo}`} alt="logo" className={`h-9 ${isScrolled && "invert opacity-80"}`} />
+                <img src={`${assets.logo}`} alt="logo" className='h-9 invert opacity-80' />
             </Link>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-4 lg:gap-8">
                 {navLinks.map((link, i) => (
-                    <Link key={i} href={link.path} className={`group flex flex-col gap-0.5 ${isScrolled ? "text-gray-700" : "text-white"}`}>
+                    <Link key={i} href={link.path} className={`group flex flex-col gap-0.5 `}>
                         {link.name}
                         <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />
                     </Link>
                 ))}
-                <button className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-white'} transition-all`}>
+                <button className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-gray-400'} transition-all`}>
                     Dashboard
                 </button>
             </div>
