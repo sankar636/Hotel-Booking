@@ -54,7 +54,7 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-3 md:hidden">
-                <img src={assets.menuIcon} alt="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`${isScrolled && 'invert'} h-4`}/>
+                <img src={assets.menuIcon} alt="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`invert h-4`}/>
             </div>
 
             {/* Mobile Menu */}
