@@ -41,7 +41,7 @@ const Allrooms = () => {
 
       {/* Show More Button */}
       <div className="flex justify-center items-center mt-8">
-        <button className="px-4 py-2 bg-blue-300 rounded-3xl hover:bg-blue-500 transition text-white">
+        <button className="px-4 py-2 bg-blue-400 rounded-3xl hover:bg-blue-500 transition text-white">
           Show More
         </button>
       </div>

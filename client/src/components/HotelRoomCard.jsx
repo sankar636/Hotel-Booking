@@ -1,15 +1,21 @@
 import React from 'react';
-import { assets, testimonials } from '../assets/assets.js';
+import { assets, testimonials, facilityIcons } from '../assets/assets.js';
 import StarIcon from './StarIcon.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const HotelRoomCard = ({ room }) => {
+    // console.log(room);    
+    const navigate = useNavigate()
+
     return (
-        <div className="flex flex-col md:flex-row max-w-3xl rounded-2xl shadow-md overflow-hidden bg-white my-4 w-full">
+        <div className="flex flex-col md:flex-row max-w-3xl rounded-2xl shadow-md overflow-hidden bg-white my-4 w-full cursor-pointer"
+        onClick={() => {navigate(`/rooms/${room._id}`); scrollTo(0,0)}}
+        >
             {/* Room Image */}
             <img
                 src={room.images[0]}
                 alt="Room Image"
-                className="w-full md:w-1/2 h-60 md:h-auto object-cover"
+                className="w-full md:w-1/2 h-60 md:h-auto object-cover cursor-pointer"
             />
 
             {/* Details Section */}
@@ -37,18 +43,12 @@ const HotelRoomCard = ({ room }) => {
 
                     {/* Facilities */}
                     <div className="flex flex-wrap gap-3 mt-2">
-                        <div className="flex items-center gap-2">
-                            <img src={assets.freeWifiIcon} alt="WiFi" className="w-4 h-4" />
-                            <label className="text-sm text-gray-700">free wifi</label>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <img src={assets.freeBreakfastIcon} alt="Breakfast" className="w-4 h-4" />
-                            <label className="text-sm text-gray-700">free breakfast</label>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <img src={assets.roomServiceIcon} alt="Room Service" className="w-4 h-4" />
-                            <label className="text-sm text-gray-700">room service</label>
-                        </div>
+                        {room.amenities.map((items, index) => (
+                            <div className="flex items-center gap-2" key={index}>
+                                <img src={facilityIcons[items]} alt={items} className="w-4 h-4"/>
+                                <label className="text-sm text-gray-700">{items}</label>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
