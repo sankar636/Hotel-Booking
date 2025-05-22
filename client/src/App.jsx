@@ -7,7 +7,7 @@ import Footer from './components/Footer.jsx'
 import Allrooms from './pages/Allrooms.jsx'
 import RoomDetails from './pages/RoomDetails.jsx'
 import MyBookings from './pages/MyBookings.jsx'
-import HotelRegister from './components/HotelRegister.jsx'
+// import HotelRegister from './components/HotelRegister.jsx'
 
 const App = () => {
   const isOwnerPath = useLocation().pathname.includes('owner')
