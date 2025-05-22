@@ -21,7 +21,7 @@ const MyBookings = () => {
                 </div>
 
                 {/* Booking List */}
-                {booking.map((booking, index) => (
+                {booking.map((booking) => (
                     <div key={booking._id} className="grid grid-cols-1 md:grid-cols-3 w-full border-b py-6">
                         {/* Hotel Details */}
                         <div className="flex items-start gap-4 px-2">

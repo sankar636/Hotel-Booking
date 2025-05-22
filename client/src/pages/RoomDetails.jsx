@@ -69,7 +69,7 @@ const RoomDetails = () => {
           </div>
         </div>
 
-        <button className="w-2xl mt-2 px-4 py-2 bg-blue-400 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
+        <button className="w-md mt-2 px-4 py-2 bg-blue-400 text-white font-medium rounded-md hover:bg-gray-800 transition-colors">
           Contact Now
         </button>
       </div>
