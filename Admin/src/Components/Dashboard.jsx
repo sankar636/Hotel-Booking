@@ -1,5 +1,5 @@
 import React from 'react';
-import { dashboardDummyData, assets } from '../../../client/src/assets/assets';
+import { dashboardDummyData, assets } from '../assets/assets.js';
 
 const Dashboard = () => {
   const { totalBookings, totalRevenue, bookings } = dashboardDummyData;

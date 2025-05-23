@@ -28,13 +28,13 @@ const Navbar = () => {
     const navigate = useNavigate()
     const location = useLocation()
     
-    if(location.pathname !== '/'){
-        setIsScrolled(true)
-        return;
-    }else{
-        setIsScrolled(false)
-    }
-    setIsScrolled(prev => location.pathname !== '/' ? true : prev)
+    // if(location.pathname !== '/'){
+    //     setIsScrolled(true)
+    //     return;
+    // }else{
+    //     setIsScrolled(false)
+    // }
+    // setIsScrolled(prev => location.pathname !== '/' ? true : prev)
 
     useEffect(() => {
         const handleScroll = () => {

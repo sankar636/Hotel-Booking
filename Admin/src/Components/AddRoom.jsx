@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { assets } from '../../../client/src/assets/assets';
+import { assets } from '../assets/assets.js';
 
 const AddRoom = () => {
   const [formData, setFormData] = useState({

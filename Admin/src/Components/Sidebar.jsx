@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { assets } from '../../../client/src/assets/assets';
+import { assets } from '../assets/assets.js';
 
 const Sidebar = () => {
   const links = [
