@@ -38,7 +38,6 @@ import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
 
-
 export const assets = {
     logo,
     searchIcon,
