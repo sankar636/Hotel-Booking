@@ -1,56 +1,71 @@
 import User from '../models/User.model.js';
 import { Webhook } from 'svix';
 
-const clerkWebHooks = async (req, res) => {
-    const whookSecret = process.env.CLERK_WEBHOOK_SECRET;
-    if (!whookSecret) {
-        throw new Error("Missing Clerk Webhook Secret!");
-    }
+/**
+ * Clerk Webhook Controller
+ * Handles: user.created, user.updated, user.deleted
+ */
+const clerkWebHook = async (req, res) => {
+    console.log("📩 Start processing Clerk webhook");
 
     try {
+        const whookSecret = process.env.CLERK_WEBHOOK_SECRET;
+        if (!whookSecret) throw new Error("Missing Clerk Webhook Secret!");
+
         const headers = {
             'svix-id': req.headers['svix-id'],
             'svix-timestamp': req.headers['svix-timestamp'],
             'svix-signature': req.headers['svix-signature']
         };
 
-        const payload = JSON.stringify(req.body);
+        // Validate all required headers
+        if (!headers['svix-id'] || !headers['svix-timestamp'] || !headers['svix-signature']) {
+            return res.status(400).json({ success: false, message: "Missing required webhook headers" });
+        }
 
-        // Verify webhook signature
+        const payload = req.body.toString(); // raw body buffer
         const whook = new Webhook(whookSecret);
-        whook.verify(payload, headers);
 
-        const { data, type } = req.body;
+        const evt = whook.verify(payload, headers); // Verifies and parses JSON
+        const { data, type } = evt;
 
+        console.log(`📨 Clerk Event Type: ${type}`);
+        console.log("👤 Event Data:", data);
+
+        // Common user data
         const userData = {
-            email: data.email_addresses[0].email_address,
-            username: `${data.first_name} ${data.last_name}`,
+            email: data.email_addresses?.[0]?.email_address || '',
+            username: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
             image: data.image_url,
-            role: data.public_metadata.role || 'user', // Default to 'user' if no role is provided
+            role: data.public_metadata?.role || 'user',
         };
 
         switch (type) {
-            case 'user.created': {
+            case 'user.created':
                 await User.create({ ...userData, _id: data.id });
+                console.log("✅ User created:", data.id);
                 break;
-            }
-            case 'user.updated': {
+
+            case 'user.updated':
                 await User.findByIdAndUpdate(data.id, userData);
+                console.log("🔄 User updated:", data.id);
                 break;
-            }
-            case 'user.deleted': {
+
+            case 'user.deleted':
                 await User.findByIdAndDelete(data.id);
+                console.log("❌ User deleted:", data.id);
                 break;
-            }
+
             default:
-                break;
+                console.log("⚠️ Unhandled event type:", type);
         }
 
-        res.json({ success: true, message: "Webhook processed successfully" });
+        return res.status(200).json({ success: true, message: "Webhook processed successfully" });
+
     } catch (error) {
-        console.error("Error at Clerk webhook:", error.message);
-        res.status(400).json({ success: false, message: error.message });
+        console.error("🚨 Webhook Error:", error.message);
+        return res.status(400).json({ success: false, message: error.message });
     }
 };
 
-export default clerkWebHooks;
+export default clerkWebHook;
