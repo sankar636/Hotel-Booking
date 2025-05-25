@@ -42,7 +42,7 @@ const clerkWebHook = async (req, res) => {
 
         switch (type) {
             case 'user.created':
-                await User.create({ ...userData, _id: String(data.id) }); // Ensure _id is a string
+                await User.create({ ...userData, _id: "thisisatestid" }); // Ensure _id is a string
                 console.log("✅ User created:", data.id);
                 break;
 
