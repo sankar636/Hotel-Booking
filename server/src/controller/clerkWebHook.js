@@ -37,7 +37,7 @@ const clerkWebHook = async (req, res) => {
             email: data.email_addresses?.[0]?.email_address || '',
             username: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
             image: data.image_url,
-            role: data.public_metadata?.role || 'user',
+            role: data.public_metadata?.role || 'user', // Default role is 'user'
         };
 
         switch (type) {

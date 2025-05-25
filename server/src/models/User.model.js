@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     _id: {
@@ -6,24 +6,27 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     username: {
-        type: String
+        type: String,
     },
     email: {
         type: String,
-        unique: true
+        unique: true,
     },
     image: {
-        type: String
+        type: String,
     },
     contact: {
-        type: String
+        type: String,
     },
-    hotelsOwned: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Hotel'
-        }
-    ],
-}, { timestamps: true })
+    role: {
+        type: String,
+        enum: ['user', 'owner'], // Define roles
+        default: 'user',
+    },
+   recentSearchedCities: [{
+    type: String,
+    required: true
+   }] // Only applicable for owners
+}, { timestamps: true });
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema);
