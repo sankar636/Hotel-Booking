@@ -19,14 +19,6 @@ app.post(
     clerkWebHook
 );
 
-// 🧼 Reject other HTTP methods on the webhook route
-app.all('/api/register', (req, res) => {
-    res.status(405).json({
-        success: false,
-        message: 'Method Not Allowed. Use POST only.'
-    });
-});
-
 // Other global middlewares AFTER webhook
 app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));

@@ -42,17 +42,17 @@ const clerkWebHook = async (req, res) => {
 
         switch (type) {
             case 'user.created':
-                await User.create({ ...userData, _id: data.id });
+                await User.create({ ...userData, _id: String(data.id) }); // Ensure _id is a string
                 console.log("✅ User created:", data.id);
                 break;
 
             case 'user.updated':
-                await User.findByIdAndUpdate(data.id, userData);
+                await User.findByIdAndUpdate(String(data.id), userData); // Ensure _id is a string
                 console.log("🔄 User updated:", data.id);
                 break;
 
             case 'user.deleted':
-                await User.findByIdAndDelete(data.id);
+                await User.findByIdAndDelete(String(data.id)); // Ensure _id is a string
                 console.log("❌ User deleted:", data.id);
                 break;
 
