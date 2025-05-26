@@ -4,10 +4,10 @@ import cookieParser from 'cookie-parser';
 import clerkWebHook from './controller/clerkWebHook.js';
 import { requireAuth } from '@clerk/express';
 import userRoutes from './routes/user.route.js';
-import { clerkMiddleware } from '@clerk/express'
-
+import { clerkMiddleware } from '@clerk/express';
 
 const app = express();
+app.use(clerkMiddleware());
 
 // Middleware: Log all incoming requests
 app.use((req, res, next) => {
@@ -22,21 +22,21 @@ app.post(
     clerkWebHook
 );
 
-app.use(clerkMiddleware())
+
 // Other global middlewares AFTER webhook
 app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN || '*', // Allow all origins if CORS_ORIGIN is not set
     credentials: true
 }));
 
+// Log the CORS_ORIGIN value for debugging
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
+
+// Routes
 app.use('/api', userRoutes);
-// app.get('/api/user', (req, res) => {
-//     console.log("GET /api/user called");
-//     res.json({ message: "User route is working" });
-// });
 
 // 🔐 Example protected route
 app.get('/api/protected', requireAuth(), (req, res) => {

@@ -7,6 +7,7 @@ import { Webhook } from 'svix';
  */
 const clerkWebHook = async (req, res) => {
     console.log("📩 Start processing Clerk webhook");
+    console.log("Headers:", req.headers); // Log headers for debugging
 
     try {
         const whookSecret = process.env.CLERK_WEBHOOK_SECRET;

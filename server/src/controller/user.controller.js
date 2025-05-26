@@ -2,6 +2,7 @@ import User from '../models/User.model.js';
 
 export const getUserData = async (req, res) => {
     try {
+        console.log("getUserData - req.user:", req.user); // Log req.user for debugging
         const userId = req.user._id; // Assuming `authMiddleware` attaches user to `req`
         const user = await User.findById(userId);
         if (!user) {
