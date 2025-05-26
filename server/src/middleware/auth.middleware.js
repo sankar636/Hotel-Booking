@@ -1,16 +1,16 @@
+import jwt from 'jsonwebtoken';
 import User from '../models/User.model.js';
 
 export const authMiddleware = async (req, res, next) => {
     try {
-        console.log("Auth Middleware - req.auth:", req); // Log req.auth for debugging
-        if (!req.auth || !req.auth.userId) { // Ensure req.auth and userId are defined
+        const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
+
+        if (!token) {
             return res.status(401).json({ success: false, message: 'Unauthorized' });
         }
 
-        const userId = req.auth.userId; // Safely access userId
-        console.log('userId', userId);
-
-        const user = await User.findById(userId);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
+        const user = await User.findById(decoded._id);
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
@@ -19,7 +19,7 @@ export const authMiddleware = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Auth Middleware Error:', error.message);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 };
 
