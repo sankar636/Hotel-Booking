@@ -2,8 +2,8 @@ import User from '../models/User.model.js';
 
 export const authMiddleware = async (req, res, next) => {
     try {
-        console.log(req);
-
+        // console.log(req);
+        res.status(401).json({success: false, message: req})
         if (!req.auth || !req.auth.userId) { // Ensure req.auth and userId are defined
             return res.status(401).json({ success: false, message: 'Unauthorized' });
         }

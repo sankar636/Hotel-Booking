@@ -33,10 +33,10 @@ app.use(cors({
 }));
 
 app.use('/api', userRoutes);
-app.get('/api/user', (req, res) => {
-    console.log("GET /api/user called");
-    res.json({ message: "User route is working" });
-});
+// app.get('/api/user', (req, res) => {
+//     console.log("GET /api/user called");
+//     res.json({ message: "User route is working" });
+// });
 
 // 🔐 Example protected route
 app.get('/api/protected', requireAuth(), (req, res) => {
