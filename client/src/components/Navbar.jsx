@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { assets } from '../assets/assets.js';
 import { Link, useNavigate } from "react-router-dom";
-import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
-
+import { getInitials } from '../utils/helper.js';
+import { UserDataContext } from "../context/AuthContext.jsx";
 const BookIcon = () => (
     <svg className="w-4 h-4 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4" />
@@ -10,6 +10,7 @@ const BookIcon = () => (
 );
 
 const Navbar = () => {
+
     const navLinks = [
         { name: 'Home', path: '/' },
         { name: 'Hotels', path: '/rooms' }, // Fixed typo: 'tooms' -> 'rooms'
@@ -17,11 +18,12 @@ const Navbar = () => {
         { name: 'About', path: '/' },
     ];
 
+    const { user, setUser } = useContext(UserDataContext)
+
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const { openSignIn } = useClerk();
-    const { user } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,28 +58,37 @@ const Navbar = () => {
             {/* Desktop Right */}
             <div className="hidden md:flex items-center gap-4">
                 <img src={assets.searchIcon} alt="Search" className={`w-6 h-6 transition duration-300 ${isScrolled ? 'invert' : ''}`} />
-                {user ? (
-                    <div className="relative">
-                        <UserButton />
+                {user && user.username != '' ? (
+                    <>
                         <button
-                            onClick={() => navigate('/my-bookings')}
-                            className="absolute top-full mt-2 bg-white border rounded shadow px-4 py-2 text-sm flex items-center gap-2">
-                            <BookIcon />
-                            My Bookings
+                            onClick={() => navigate('/profile')}
+                            className="bg-gray-700 text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
+                            {getInitials(user?.username)}
                         </button>
-                    </div>
+                        <button
+                            className="bg-red-500 text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
+                            Logout
+                        </button>
+                    </>
                 ) : (
-                    <button
-                        onClick={openSignIn}
-                        className="bg-black text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
-                        Login
-                    </button>
+                    <>
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="bg-black text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
+                            Login
+                        </button>
+                        <button
+                            onClick={() => navigate('/signup')}
+                            className="bg-gray-700 text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500">
+                            Sign Up
+                        </button>
+                    </>
                 )}
             </div>
 
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-3 md:hidden">
-                {user && <UserButton />}
+                {/* {user && <UserButton />} */}
                 <img src={assets.menuIcon} alt="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} className={`invert h-4`} />
             </div>
 
@@ -96,18 +107,44 @@ const Navbar = () => {
                 <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
                     Dashboard
                 </button>
-                {user ? (
-                    <button
-                        onClick={() => navigate('/my-bookings')}
-                        className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
-                        My Bookings
-                    </button>
+                {user && user.username != '' ? (
+                    <>
+                        <button
+                            onClick={() => {
+                                setIsMenuOpen(false);
+                                navigate('/profile');
+                            }}
+                            className="bg-gray-700 text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                            {getInitials(user?.username)}
+                        </button>
+                        <button
+                            onClick={() => {
+                                setIsMenuOpen(false);
+                                // Add logout logic here if needed
+                            }}
+                            className="bg-red-500 text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                            Logout
+                        </button>
+                    </>
                 ) : (
-                    <button
-                        onClick={openSignIn}
-                        className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
-                        Login
-                    </button>
+                    <>
+                        <button
+                            onClick={() => {
+                                setIsMenuOpen(false);
+                                navigate('/login');
+                            }}
+                            className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                            Login
+                        </button>
+                        <button
+                            onClick={() => {
+                                setIsMenuOpen(false);
+                                navigate('/signup');
+                            }}
+                            className="bg-gray-700 text-white px-8 py-2.5 rounded-full transition-all duration-500">
+                            Sign Up
+                        </button>
+                    </>
                 )}
             </div>
         </nav>
